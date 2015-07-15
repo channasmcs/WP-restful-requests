@@ -1,6 +1,9 @@
 # WP-restful-requests (plugin)
 version 1.0
 <br>
+![about me](http://1.bp.blogspot.com/-uCbV5XHcLO4/VAbzG1il9LI/AAAAAAAAAUQ/yMPccsaNa3o/s1600/wonder-logo.png)](http://channasmcs.blogspot.com/)<br/>
+
+<br>
 This plugin Makes quickly adding a RESTFul API to your Wordpress site easy
 
  WP-restful-requests  provides full HTTP verb support (GET) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the ability to read and manipulate related data with ease.

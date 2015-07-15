@@ -31,7 +31,7 @@ Makes quickly adding a RESTFul API to your Wordpress site easy
  
  get Status CodeMessage
  
- <code>
+ <pre> 
  100 => 'Continue',
             101 => 'Switching Protocols',
             200 => 'OK',
@@ -73,5 +73,4 @@ Makes quickly adding a RESTFul API to your Wordpress site easy
             503 => 'Service Unavailable',
             504 => 'Gateway Timeout',
             505 => 'HTTP Version Not Supported'
- </code>
- 
+ </pre>

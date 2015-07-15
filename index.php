@@ -14,41 +14,6 @@ Author URI: http://channasmcs.blogspot.com/
 */
 /*
 
-GET all post
-http://SITE_NAME/?wp-api=all
-=================================================
-
-GET all post related by post type
-http://SITE_NAME/?wp-api/post_type=post_type
-
-EX :
-http://SITE_NAME/?wp-api/post_type=page
-
-=================================================
-
-GET all post related by post status
-http://SITE_NAME/?wp-api/post_type=post_status
-
-EX :
-http://SITE_NAME/?wp-api/post_status=auto-draft
-
-=================================================
-
-GET all post related by  post id
-http://SITE_NAME/?wp-api/post_type=post_id
-
-EX :
-http://SITE_NAME/?wp-api/post_id=12
-
-=================================================
-
-GET all post related by  category id
-http://SITE_NAME/?wp-api/category_id=category_id
-
-EX :
-http://SITE_NAME/?wp-api/category_id=3
-
-=================================================
 
 all data send as JSON format
  *
@@ -68,7 +33,7 @@ function restful_requests_deactivate()
 
 function restful_requests_rules()
     {
- //    add_rewrite_rule('products/?([^/]*)', 'index.php?pagename=products&product_id=$matches[1]', 'top');
+
 //      json all post
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api=all', 'top' );
 
@@ -76,16 +41,14 @@ function restful_requests_rules()
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_type=null', 'top' );
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_status=null', 'top' );
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_id=null', 'top' );
-
 //      category
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/category_id=null', 'top' );
-
 //      page
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/page=all', 'top' );
-// post comment
+//      post comment
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_comment=null', 'top' );
 
-// post author
+ //     post author
     add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/author_id=null', 'top' );
 
     }
@@ -107,10 +70,10 @@ function restful_requests_query_vars($restful_vars)
 
 function action_parse_request( &$wp ) {
 
-
     $output = array();
     foreach( $wp->query_vars as $key=> $post )
-    {    // Pluck the id and title attributes
+    {   
+     // Pluck the id and title attributes
         $output[] = $post;
     }
 
@@ -151,7 +114,7 @@ function action_parse_request( &$wp ) {
         }
         else
         {
-//            echo _sendResponse(404,sprintf('Mode <b>create</b> is not implemented for model <b>%s</b>'));
+
             echo sprintf('Mode <b>create</b> is not implemented for model <b>%s</b>');
         };
 
@@ -160,7 +123,7 @@ function action_parse_request( &$wp ) {
 
         {
             $id =$wp->query_vars['wp-api/post_status'];
-    //                    echo($id);
+
             echo _sendResponse(200,null,'post_status',null,$id,'application/json');
 
         }
@@ -175,7 +138,7 @@ function action_parse_request( &$wp ) {
     elseif($key=='wp-api/page') //get page  detail
 
         {
-//            exit;
+
             $id =$wp->query_vars['wp-api/page'];
 
             echo _sendResponse(200,null,'page',null,$id,'application/json');
@@ -184,7 +147,7 @@ function action_parse_request( &$wp ) {
     elseif($key=='wp-api/post_comment') //get comment related with post id
 
         {
-//            exit;
+
             $id =$wp->query_vars['wp-api/post_comment'];
 
             echo _sendResponse(200,null,'post_comment',null,$id,'application/json');
@@ -193,7 +156,7 @@ function action_parse_request( &$wp ) {
     elseif($key=='wp-api/author_id') //get post  related with author id
 
         {
-//            exit;
+
             $id =$wp->query_vars['wp-api/author_id'];
 
             echo _sendResponse(200,null,'author_id',null,$id,'application/json');
@@ -201,9 +164,6 @@ function action_parse_request( &$wp ) {
         }
 
 
-
-
-//    exit;
 }
 
 function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $content_type = 'text/html')
@@ -217,6 +177,7 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
     $endarray = explode(" ", $endtime);
     $endtime = $endarray[1] + $endarray[0];
     $totaltime = $endtime - $starttime;
+
 
     if($totaltime > 30)
         {
@@ -272,7 +233,7 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
                     //  data empty
                     echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
                 }
-//                echo _getStatusCodeMessage(404);
+
             }
 
             elseif($page=='post_type') // get all post by type
@@ -311,6 +272,7 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
             }
             elseif($page=='post_status') // get all post status  by type
             {
+
                 $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE  post_status LIKE "'.$id.'" AND  post_type LIKE "post"  ORDER BY "ID" DESC ';
                 $posts = $wpdb->get_results($sql);
 
@@ -531,6 +493,7 @@ add_action('init', 'restful_requests_rules');
 add_filter('query_vars', 'restful_requests_query_vars');
 //register plugin custom pages display
 add_filter('template_redirect', 'restful_requests_display');
+
 add_action( 'parse_request', 'action_parse_request');
 
 

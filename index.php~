@@ -348,7 +348,7 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
                 $query = new WP_Query( $args ); // $query is the WP_Query Object
                 $posts = $query->get_posts();   // $posts contains the post objects
 
-//           echo'<pre>'.print_r($posts,1).'</pre>';
+
                 ;
 //        exit;
 

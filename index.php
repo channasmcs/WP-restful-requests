@@ -349,9 +349,6 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
                 $posts = $query->get_posts();   // $posts contains the post objects
 
 
-                ;
-//        exit;
-
                 if(!empty($posts))
                 {
 

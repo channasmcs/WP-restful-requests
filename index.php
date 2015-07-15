@@ -76,21 +76,23 @@ function restful_requests_rules()
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_type=null', 'top' );
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_status=null', 'top' );
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_id=null', 'top' );
+
 //      category
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/category_id=null', 'top' );
+
 //      page
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/page=all', 'top' );
 // post comment
         add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_comment=null', 'top' );
 
- // post author
+// post author
     add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/author_id=null', 'top' );
 
     }
 
 function restful_requests_query_vars($restful_vars)
     {
-//        echo'<pre>'.print_r($vars,1).'</pre>';
+
     $restful_vars[] = 'wp-api';
     $restful_vars[] = 'wp-api/post_id';
     $restful_vars[] = 'wp-api/post_type';
@@ -105,8 +107,7 @@ function restful_requests_query_vars($restful_vars)
 
 function action_parse_request( &$wp ) {
 
-//    echo'<pre>'.print_r($wp->query_vars,1).'</pre>';
-//    exit;
+
     $output = array();
     foreach( $wp->query_vars as $key=> $post )
     {    // Pluck the id and title attributes
@@ -217,8 +218,6 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
     $endtime = $endarray[1] + $endarray[0];
     $totaltime = $endtime - $starttime;
 
-//$totaltime = round($totaltime);
-//echo "This page loaded in $totaltime seconds.";
     if($totaltime > 30)
         {
             echo _getStatusCodeMessage(504) .' This page loaded in '.$totaltime.' seconds ';
@@ -312,7 +311,6 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
             }
             elseif($page=='post_status') // get all post status  by type
             {
-//        SELECT * FROM `wp_posts` WHERE `post_status` LIKE 'publish' AND `post_type` LIKE 'post' ORDER BY `post_status` DESC
                 $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE  post_status LIKE "'.$id.'" AND  post_type LIKE "post"  ORDER BY "ID" DESC ';
                 $posts = $wpdb->get_results($sql);
 

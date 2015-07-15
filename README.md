@@ -15,22 +15,22 @@ Makes quickly adding a RESTFul API to your Wordpress site easy
 
                1. [GET] http://SITE_NAME/?wp-api=all (returns all  post)
                
-               2. [GET] http://SITE_NAME/?wp-api/post_type=post_type=null (returns all post related by post type 
+               2. [GET] http://SITE_NAME/?wp-api/post_type=post_type (returns all post related by post type 
                           EX :  http://SITE_NAME/?wp-api/post_type=page
                           
-               3. [GET] http://SITE_NAME/?wp-api/post_type=post_status=null (returns all post related by post status)
+               3. [GET] http://SITE_NAME/?wp-api/post_type=post_status (returns all post related by post status)
                           EX :  http://SITE_NAME/?wp-api/post_status=auto-draft
                           
-               4. [GET] http://SITE_NAME/?wp-api/post_type=post_id=null (return  all post related by  post id)
+               4. [GET] http://SITE_NAME/?wp-api/post_type=post_id (return  all post related by  post id)
                           EX :  http://SITE_NAME/?wp-api/post_id=12
                           
                5. [GET] http://SITE_NAME/?wp-api/category_id=category_id (return  all post related by  category id)
                           EX :  http://SITE_NAME/?wp-api/category_id=3 
                           
-               6. [GET] http://SITE_NAME/?wp-api/page=all (return  all pages)
-               
-               5. [GET] http://SITE_NAME/?wp-api/post_comment=null (return  all comment related by  post id)
-                          EX :  http://SITE_NAME/?wp-api/post_comment=3                   
+               6. [GET] http://SITE_NAME/?wp-api/post_comment=post_id (return  all comment  related by post id)
+                          EX :  http://SITE_NAME/?wp-api/post_comment=3 
+               7. [GET] http://SITE_NAME/?wp-api/post_comment=author_id (return  all post  related by author )
+                          EX :  http://SITE_NAME/?wp-api/author_id=1           
                           
  all data send as JSON format
  

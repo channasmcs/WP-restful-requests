@@ -29,6 +29,7 @@ Makes quickly adding a RESTFul API to your Wordpress site easy
                           
                6. [GET] http://SITE_NAME/?wp-api/post_comment=post_id (return  all comment  related by post id)
                           EX :  http://SITE_NAME/?wp-api/post_comment=3 
+                          
                7. [GET] http://SITE_NAME/?wp-api/post_comment=author_id (return  all post  related by author )
                           EX :  http://SITE_NAME/?wp-api/author_id=1           
                           

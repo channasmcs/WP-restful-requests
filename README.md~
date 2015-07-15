@@ -1,13 +1,12 @@
-# WP-restful-requests (plugin)
+# WP-restful-requests
 version 1.0
-<br>
-This plugin Makes quickly adding a RESTFul API to your Wordpress site easy
+Makes quickly adding a RESTFul API to your Wordpress site easy
 
  WP-restful-requests  provides full HTTP verb support (GET) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the ability to read and manipulate related data with ease.
  
  WP-restful-requests has been lovingly rebuilt from the metal and is now 100% test covered! The new event based architecture allows for clean and unlimited customization.
  
- <h2><b><i>How it works</i></b></h2>
+ <b><i>How it works</i></b>
  
  1. Download and place the 'upload pluing ' directory in your wordpress site.
  2. active WP-restful-requests 

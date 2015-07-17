@@ -1,9 +1,6 @@
 <?php
 /**
- * @package Hello_Dolly
- * @version 1.6
- */
-/*
+
 Plugin Name: WP-restful-requests
 Plugin URI: http://wordpress.org/plugins/WP-JSON/
 Description: This is simple plugin to List Post as JSON .you can get all post & pages get by post id ,post type,post category, post status.sending a post request with json data that contains a list.ontentType to 'application/json' and use the JSON
@@ -11,7 +8,7 @@ Author:  channa senevirathna bandara
 Version: 1.0
 Author URI: http://channasmcs.blogspot.com/
 
-*/
+ */
 /*
 
 
@@ -19,42 +16,42 @@ all data send as JSON format
  *
  */
 
-function restful_requests_activate()
-    {
-        restful_requests_rules();
-        flush_rewrite_rules();
-    }
+function smcs_restful_requests_activate()
+{
+    smcs_restful_requests_rules();
+    flush_rewrite_rules();
+}
 
-function restful_requests_deactivate()
-    {
-        flush_rewrite_rules();
-    }
+function smcs_restful_requests_deactivate()
+{
+    flush_rewrite_rules();
+}
 
 
-function restful_requests_rules()
-    {
+function smcs_restful_requests_rules()
+{
 
 //      json all post
-        add_rewrite_rule( 'WP-api/?', 'index.php?wp-api=all', 'top' );
+    add_rewrite_rule( 'WP-api/?', 'index.php?wp-api=all', 'top' );
 
- //    jSOn url for post
-        add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_type=null', 'top' );
-        add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_status=null', 'top' );
-        add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_id=null', 'top' );
+    //    jSOn url for post
+    add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_type=null', 'top' );
+    add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_status=null', 'top' );
+    add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_id=null', 'top' );
 //      category
-        add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/category_id=null', 'top' );
+    add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/category_id=null', 'top' );
 //      page
-        add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/page=all', 'top' );
+    add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/page=all', 'top' );
 //      post comment
-        add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_comment=null', 'top' );
+    add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/post_comment=null', 'top' );
 
- //     post author
+    //     post author
     add_rewrite_rule( 'WP-api/?', 'index.php?wp-api/author_id=null', 'top' );
 
-    }
+}
 
-function restful_requests_query_vars($restful_vars)
-    {
+function smcs_restful_requests_query_vars($restful_vars)
+{
 
     $restful_vars[] = 'wp-api';
     $restful_vars[] = 'wp-api/post_id';
@@ -64,16 +61,16 @@ function restful_requests_query_vars($restful_vars)
     $restful_vars[] = 'wp-api/page';
     $restful_vars[] = 'wp-api/post_comment';
     $restful_vars[] = 'wp-api/author_id';
-        return $restful_vars;
- }
+    return $restful_vars;
+}
 
 
-function action_parse_request( &$wp ) {
+function smcs_parse_request( &$wp ) {
 
     $output = array();
     foreach( $wp->query_vars as $key=> $post )
-    {   
-     // Pluck the id and title attributes
+    {
+        // Pluck the id and title attributes
         $output[] = $post;
     }
 
@@ -81,7 +78,7 @@ function action_parse_request( &$wp ) {
     if ($wp->query_vars['wp-api']=='all') //get post detail
     {
 
-        echo _sendResponse(200,null,'all',null,null,'application/json');
+        echo smcs_sendResponse(200,null,'all',null,null,'application/json');
 
     }
 
@@ -93,11 +90,11 @@ function action_parse_request( &$wp ) {
 
         if(!empty($id))
         {
-            echo _sendResponse(200,null,'post_id',null,$id,'application/json');
+            echo smcs_sendResponse(200,null,'post_id',null,$id,'application/json');
         }
         else
         {
-            echo _getStatusCodeMessage(404);
+            echo smcs_getStatusCodeMessage(404);
         }
 
     }
@@ -110,7 +107,7 @@ function action_parse_request( &$wp ) {
 
         if(!empty($id))
         {
-            echo _sendResponse(200,null,'post_type',null,$id,'application/json');
+            echo smcs_sendResponse(200,null,'post_type',null,$id,'application/json');
         }
         else
         {
@@ -121,52 +118,52 @@ function action_parse_request( &$wp ) {
     }
     elseif($key=='wp-api/post_status') //get status detail
 
-        {
-            $id =$wp->query_vars['wp-api/post_status'];
+    {
+        $id =$wp->query_vars['wp-api/post_status'];
 
-            echo _sendResponse(200,null,'post_status',null,$id,'application/json');
+        echo smcs_sendResponse(200,null,'post_status',null,$id,'application/json');
 
-        }
+    }
     elseif($key=='wp-api/category_id') //get category  detail
 
-        {
-            $id =$wp->query_vars['wp-api/category_id'];
+    {
+        $id =$wp->query_vars['wp-api/category_id'];
 
-            echo _sendResponse(200,null,'category_id',null,$id,'application/json');
+        echo smcs_sendResponse(200,null,'category_id',null,$id,'application/json');
 
-        }
+    }
     elseif($key=='wp-api/page') //get page  detail
 
-        {
+    {
 
-            $id =$wp->query_vars['wp-api/page'];
+        $id =$wp->query_vars['wp-api/page'];
 
-            echo _sendResponse(200,null,'page',null,$id,'application/json');
+        echo smcs_sendResponse(200,null,'page',null,$id,'application/json');
 
-        }
+    }
     elseif($key=='wp-api/post_comment') //get comment related with post id
 
-        {
+    {
 
-            $id =$wp->query_vars['wp-api/post_comment'];
+        $id =$wp->query_vars['wp-api/post_comment'];
 
-            echo _sendResponse(200,null,'post_comment',null,$id,'application/json');
+        echo smcs_sendResponse(200,null,'post_comment',null,$id,'application/json');
 
-        }
+    }
     elseif($key=='wp-api/author_id') //get post  related with author id
 
-        {
+    {
 
-            $id =$wp->query_vars['wp-api/author_id'];
+        $id =$wp->query_vars['wp-api/author_id'];
 
-            echo _sendResponse(200,null,'author_id',null,$id,'application/json');
+        echo smcs_sendResponse(200,null,'author_id',null,$id,'application/json');
 
-        }
+    }
 
 
 }
 
-function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $content_type = 'text/html')
+function smcs_sendResponse($status = '', $body = '',$page='',$type='',$id='', $content_type = 'text/html')
 {
     global $query_string;
     global $wpdb;
@@ -180,211 +177,22 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
 
 
     if($totaltime > 30)
-        {
-            echo _getStatusCodeMessage(504) .' This page loaded in '.$totaltime.' seconds ';
-        }
+    {
+        echo smcs_getStatusCodeMessage(504) .' This page loaded in '.$totaltime.' seconds ';
+    }
     else
+    {
+
+
+        if($page=='all') // get all post
         {
 
+            $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE post_type LIKE "post"  ORDER BY "ID" DESC ';
+            $posts = $wpdb->get_results($sql);
 
-            if($page=='all') // get all post
+            if(!empty($posts)) // get all post
             {
-
-                $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE post_type LIKE "post"  ORDER BY "ID" DESC ';
-                $posts = $wpdb->get_results($sql);
-
-                if(!empty($posts)) // get all post
-                {
 //                               data available
-                    if( !empty( $posts ) )
-                    {
-                        $output = array();
-                        foreach( $posts as $post ) {    // Pluck the id and title attributes
-                            $output[] = $post;
-                        }
-                        echo json_encode( $output );
-                    }
-                    else
-                    {
-                        echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                    }
-                }
-                else
-                {
-                    //  data empty
-                    echo _getStatusCodeMessage(404),' Mode '.$page.' = is not implemented for wordpress  <b>%s</b>' ;
-                }
-
-
-            }
-
-            elseif($page=='post_id') // get all post by id
-            {
-                $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE ID = "'.$id.'"  ORDER BY "ID" DESC ';
-                $posts = $wpdb->get_results($sql);
-
-                if(!empty($posts))
-                {
-
-                    echo json_encode( $posts );
-                }
-                else
-                {
-                    //  data empty
-                    echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                }
-
-            }
-
-            elseif($page=='post_type') // get all post by type
-            {
-
-                $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE  post_type LIKE "'.$id.'" AND  post_status LIKE "publish"  ORDER BY "ID" DESC ';
-                $posts = $wpdb->get_results($sql);
-
-
-
-
-                if(!empty($posts))
-                {
-
-                    if( !empty( $posts ) )
-                    {
-                        $output = array();
-                        foreach( $posts as $post ) {    // Pluck the id and title attributes
-                            $output[] = $post;
-                        }
-                        echo json_encode( $output );
-                    }
-                    else
-                    {
-                        echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                    }
-                }
-                else
-                {
-                    //  data empty
-
-                    echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-
-                }
-
-            }
-            elseif($page=='post_status') // get all post status  by type
-            {
-
-                $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE  post_status LIKE "'.$id.'" AND  post_type LIKE "post"  ORDER BY "ID" DESC ';
-                $posts = $wpdb->get_results($sql);
-
-
-                if(!empty($posts))
-                {
-
-                    if( !empty( $posts ) )
-                    {
-                        $output = array();
-                        foreach( $posts as $post ) {    // Pluck the id and title attributes
-                            $output[] = $post;
-                        }
-                        echo json_encode( $output );
-                    }
-                    else
-                    {
-                        echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                    }
-                }
-                else
-                {
-                    //  data empty
-                    echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                }
-
-            }
-            elseif($page=='category_id') // get all category base post  by type
-            {
-
-                $args = array(
-                    'cat'         => $id,
-                    'post_type'  => 'post',
-                );
-                $query = new WP_Query( $args ); // $query is the WP_Query Object
-                $posts = $query->get_posts();   // $posts contains the post objects
-
-
-                if(!empty($posts))
-                {
-
-                    if( !empty( $posts ) )
-                    {
-                        $output = array();
-                        foreach( $posts as $post ) {    // Pluck the id and title attributes
-                            $output[] = $post;
-                        }
-                        echo json_encode( $output );
-                    }
-                    else
-                    {
-                        echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                    }
-                }
-                else
-                {
-                    //  data empty
-                    echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                }
-
-            }
-            elseif($page=='page') // get all category base post  by type
-            {
-
-                if($id =='all')
-                {
-                    $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE   post_type LIKE "page"  ORDER BY "ID" DESC ';
-                    $posts = $wpdb->get_results($sql);
-
-                    if( !empty( $posts ) )
-                    {
-                        $output = array();
-                        foreach( $posts as $post ) {    // Pluck the id and title attributes
-                            $output[] = $post;
-                        }
-                        echo json_encode( $output );
-                    }
-                    else
-                    {
-                        echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                    }
-
-                }
-                else
-                {
-
-                    $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE ID="'.$id.'"  AND post_type LIKE "page"  ORDER BY "ID" DESC ';
-                    $posts = $wpdb->get_results($sql);
-
-                    if( !empty( $posts ) )
-                    {
-                        $output = array();
-                        foreach( $posts as $post ) {    // Pluck the id and title attributes
-                            $output[] = $post;
-                        }
-                        echo json_encode( $output );
-                    }
-                    else
-                    {
-                        echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
-                    }
-
-                }
-
-
-
-            }
-            elseif($page=='post_comment') // get all comment  base post  id
-            {
-
-                $sql='SELECT p.* FROM  '.$wpdb->prefix.'comments c JOIN '.$wpdb->prefix.'posts p ON c.comment_post_ID =p.ID WHERE p.ID="'.$id.'" ';
-                $posts = $wpdb->get_results($sql);
                 if( !empty( $posts ) )
                 {
                     $output = array();
@@ -395,16 +203,48 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
                 }
                 else
                 {
-                    echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+                    echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
                 }
-
-
             }
-           elseif($page=='author_id') // get all comment  base post  id
+            else
+            {
+                //  data empty
+                echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = is not implemented for wordpress  <b>%s</b>' ;
+            }
+
+
+        }
+
+        elseif($page=='post_id') // get all post by id
+        {
+            $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE ID = "'.$id.'"  ORDER BY "ID" DESC ';
+            $posts = $wpdb->get_results($sql);
+
+            if(!empty($posts))
             {
 
-                echo('hello');
-                $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE post_author="'.$id.'"  AND post_type LIKE "page"  ORDER BY "ID" DESC ';  $posts = $wpdb->get_results($sql);
+                echo json_encode( $posts );
+            }
+            else
+            {
+                //  data empty
+                echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+            }
+
+        }
+
+        elseif($page=='post_type') // get all post by type
+        {
+
+            $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE  post_type LIKE "'.$id.'" AND  post_status LIKE "publish"  ORDER BY "ID" DESC ';
+            $posts = $wpdb->get_results($sql);
+
+
+
+
+            if(!empty($posts))
+            {
+
                 if( !empty( $posts ) )
                 {
                     $output = array();
@@ -415,15 +255,172 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
                 }
                 else
                 {
-                    echo _getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+                    echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+                }
+            }
+            else
+            {
+                //  data empty
+
+                echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+
+            }
+
+        }
+        elseif($page=='post_status') // get all post status  by type
+        {
+
+            $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE  post_status LIKE "'.$id.'" AND  post_type LIKE "post"  ORDER BY "ID" DESC ';
+            $posts = $wpdb->get_results($sql);
+
+
+            if(!empty($posts))
+            {
+
+                if( !empty( $posts ) )
+                {
+                    $output = array();
+                    foreach( $posts as $post ) {    // Pluck the id and title attributes
+                        $output[] = $post;
+                    }
+                    echo json_encode( $output );
+                }
+                else
+                {
+                    echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+                }
+            }
+            else
+            {
+                //  data empty
+                echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+            }
+
+        }
+        elseif($page=='category_id') // get all category base post  by type
+        {
+
+            $args = array(
+                'cat'         => $id,
+                'post_type'  => 'post',
+            );
+            $query = new WP_Query( $args ); // $query is the WP_Query Object
+            $posts = $query->get_posts();   // $posts contains the post objects
+
+
+            if(!empty($posts))
+            {
+
+                if( !empty( $posts ) )
+                {
+                    $output = array();
+                    foreach( $posts as $post ) {    // Pluck the id and title attributes
+                        $output[] = $post;
+                    }
+                    echo json_encode( $output );
+                }
+                else
+                {
+                    echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+                }
+            }
+            else
+            {
+                //  data empty
+                echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+            }
+
+        }
+        elseif($page=='page') // get all category base post  by type
+        {
+
+            if($id =='all')
+            {
+                $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE   post_type LIKE "page"  ORDER BY "ID" DESC ';
+                $posts = $wpdb->get_results($sql);
+
+                if( !empty( $posts ) )
+                {
+                    $output = array();
+                    foreach( $posts as $post ) {    // Pluck the id and title attributes
+                        $output[] = $post;
+                    }
+                    echo json_encode( $output );
+                }
+                else
+                {
+                    echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
                 }
 
+            }
+            else
+            {
+
+                $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE ID="'.$id.'"  AND post_type LIKE "page"  ORDER BY "ID" DESC ';
+                $posts = $wpdb->get_results($sql);
+
+                if( !empty( $posts ) )
+                {
+                    $output = array();
+                    foreach( $posts as $post ) {    // Pluck the id and title attributes
+                        $output[] = $post;
+                    }
+                    echo json_encode( $output );
+                }
+                else
+                {
+                    echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+                }
 
             }
 
 
 
         }
+        elseif($page=='post_comment') // get all comment  base post  id
+        {
+
+            $sql='SELECT p.* FROM  '.$wpdb->prefix.'comments c JOIN '.$wpdb->prefix.'posts p ON c.comment_post_ID =p.ID WHERE p.ID="'.$id.'" ';
+            $posts = $wpdb->get_results($sql);
+            if( !empty( $posts ) )
+            {
+                $output = array();
+                foreach( $posts as $post ) {    // Pluck the id and title attributes
+                    $output[] = $post;
+                }
+                echo json_encode( $output );
+            }
+            else
+            {
+                echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+            }
+
+
+        }
+        elseif($page=='author_id') // get all comment  base post  id
+        {
+
+            echo('hello');
+            $sql='SELECT * FROM '.$wpdb->prefix.'posts WHERE post_author="'.$id.'"  AND post_type LIKE "page"  ORDER BY "ID" DESC ';  $posts = $wpdb->get_results($sql);
+            if( !empty( $posts ) )
+            {
+                $output = array();
+                foreach( $posts as $post ) {    // Pluck the id and title attributes
+                    $output[] = $post;
+                }
+                echo json_encode( $output );
+            }
+            else
+            {
+                echo smcs_getStatusCodeMessage(404),' Mode '.$page.' = <b>'.$id.'</b> is not implemented for wordpress  <b>%s</b>' ;
+            }
+
+
+        }
+
+
+
+    }
 
 
 
@@ -432,7 +429,7 @@ function _sendResponse($status = '', $body = '',$page='',$type='',$id='', $conte
 }
 
 
-function _getStatusCodeMessage($status)
+function smcs_getStatusCodeMessage($status)
 {
     // these could be stored in a .ini file and loaded
     // via parse_ini_file()... however, this will suffice
@@ -484,17 +481,17 @@ function _getStatusCodeMessage($status)
 
 }
 //register activation function
-register_activation_hook(__FILE__, 'restful_requests_activate');
+register_activation_hook(__FILE__, 'smcs_restful_requests_activate');
 //register deactivation function
-register_deactivation_hook(__FILE__, 'restful_requests_deactivate');
+register_deactivation_hook(__FILE__, 'smcs_restful_requests_deactivate');
 //add rewrite rules in case another plugin flushes rules
-add_action('init', 'restful_requests_rules');
+add_action('init', 'smcs_restful_requests_rules');
 //add plugin query vars  to wordpress
-add_filter('query_vars', 'restful_requests_query_vars');
+add_filter('query_vars', 'smcs_restful_requests_query_vars');
 //register plugin custom pages display
-add_filter('template_redirect', 'restful_requests_display');
+add_filter('template_redirect', 'smcs_restful_requests_display');
 
-add_action( 'parse_request', 'action_parse_request');
+add_action( 'parse_request', 'smcs_parse_request');
 
 
 
